@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "qBDsVQqUKewRdXMlLl9+ZlHyGIxfwcyWEx0ZvZkfBic=",
+  "Source": "Table.API",
+  "BasePath": "_content/Table.API",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
