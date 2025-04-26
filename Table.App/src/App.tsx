@@ -1,8 +1,13 @@
-function App() {
+import { TableDemo } from "./pages/table-demo";
 
+function App() {
   return (
-    <div>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Inventore maxime harum dignissimos provident rerum cum consectetur placeat obcaecati officiis itaque? Quia consectetur nam accusantium, tenetur incidunt quis sequi aliquid delectus!</div>
-  )
+    <div className="min-h-screen bg-background">
+      <TableDemo />
+
+      <div className="bg-red h-24"></div>
+    </div>
+  );
 }
 
-export default App
+export default App;
