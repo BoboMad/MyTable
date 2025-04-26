@@ -52,8 +52,6 @@ export function TableDemo() {
     <div className="container mx-auto py-10">
       <h1 className="text-3xl font-bold mb-6">Payments Table</h1>
       <DataTable columns={columns} data={mockData} />
-
-      <Checkbox />
     </div>
   );
 }

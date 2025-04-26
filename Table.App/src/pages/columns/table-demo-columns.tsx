@@ -60,7 +60,7 @@ export const columns: ColumnDef<Payment>[] = [
         <Badge
           variant={
             status === "success"
-              ? "default"
+              ? "success"
               : status === "processing"
               ? "secondary"
               : status === "pending"

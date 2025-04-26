@@ -60,11 +60,15 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
                           header.column.columnDef.header,
                           header.getContext()
                         )}
-                    {{
-                      asc: <MoveUp className="w-4 h-4" />,
-                      desc: <MoveDown className="w-4 h-4" />,
-                      false: <MoveVertical className="w-4 h-4" />,
-                    }[header.column.getIsSorted() as string] ?? null}
+                    {header.column.getCanSort() && (
+                      <span className="ml-2 text-sm">
+                        {{
+                          asc: <MoveUp className="w-4 h-4" />,
+                          desc: <MoveDown className="w-4 h-4" />,
+                          false: <MoveVertical className="w-4 h-4" />,
+                        }[header.column.getIsSorted() as string] ?? null}
+                      </span>
+                    )}
                   </div>
 
                   {header.column.getCanResize() && (
@@ -73,7 +77,7 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
                         onMouseDown: header.getResizeHandler(),
                         onTouchStart: header.getResizeHandler(),
                         className:
-                          "absolute top-0 right-0 h-3/4 w-1 bg-gray-500 cursor-col-resize select-none",
+                          "absolute right-0 top-1/2 h-1/2 w-1 bg-gray-500 cursor-col-resize select-none -translate-y-1/2",
                         style: {
                           opacity: 0.5,
                         },
@@ -91,7 +95,7 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
             table.getRowModel().rows.map((row) => (
               <TableRow key={row.id}>
                 {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
+                  <TableCell key={cell.id} className="truncate">
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}
