@@ -57,19 +57,22 @@ export const columns: ColumnDef<Payment>[] = [
     cell: ({ row }) => {
       const status = row.getValue("status") as Payment["status"];
       return (
-        <Badge
-          variant={
-            status === "success"
-              ? "success"
-              : status === "processing"
-              ? "secondary"
-              : status === "pending"
-              ? "outline"
-              : "destructive"
-          }
-        >
-          {status}
-        </Badge>
+        <div>
+          <Badge
+            className="min-w-24"
+            variant={
+              status === "success"
+                ? "success"
+                : status === "processing"
+                ? "warning"
+                : status === "pending"
+                ? "outline"
+                : "destructive"
+            }
+          >
+            {status}
+          </Badge>
+        </div>
       );
     },
   },

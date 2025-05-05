@@ -1,11 +1,9 @@
-import { TableDemo } from "./pages/table-demo";
+import { PaymentTable } from "./pages/payment-table";
 
 function App() {
   return (
     <div className="min-h-screen bg-background">
-      <TableDemo />
-
-      <div className="bg-red h-24"></div>
+      <PaymentTable />
     </div>
   );
 }

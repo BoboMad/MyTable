@@ -7,4 +7,9 @@ type Payment = {
     description: string;
   };
 
-  export type { Payment };
+  type Status = {
+    value: number | string;
+    label: string
+  }
+
+  export type { Payment, Status };

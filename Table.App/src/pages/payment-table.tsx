@@ -1,8 +1,10 @@
 import { useReactTable, getCoreRowModel } from "@tanstack/react-table";
 import { DataTable } from "@/components/ui/data-table";
 import { Payment } from "./types/types";
-import { columns } from "./columns/table-demo-columns";
+import { columns } from "./columns/payment-table-columns";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Button } from "@/components/ui/button";
+import { Combobox } from "@/components/ui/combobox";
 
 const mockData: Payment[] = [
   {
@@ -47,10 +49,22 @@ const mockData: Payment[] = [
   },
 ];
 
-export function TableDemo() {
+export function PaymentTable() {
   return (
     <div className="container mx-auto py-10">
       <h1 className="text-3xl font-bold mb-6">Payments Table</h1>
+      <div className="flex gap-2">
+        <Button className="mb-4">Add Payment</Button>
+        <Button className="mb-4">Remove</Button>
+        <Button className="mb-4">Save</Button>
+      </div>
+      <Combobox
+        options={[
+          { label: "Hej", value: 1 },
+          { label: "Hej2", value: 2 },
+          { label: "Hej3", value: 3 },
+        ]}
+      />
       <DataTable columns={columns} data={mockData} />
     </div>
   );
