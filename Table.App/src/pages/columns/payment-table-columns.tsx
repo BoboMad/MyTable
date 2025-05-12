@@ -27,20 +27,26 @@ export const columns: ColumnDef<Payment>[] = [
         aria-label="Select row"
       />
     ),
+    minSize: 50,
+    size: 50,
     enableSorting: false,
     enableHiding: false,
   },
   {
     accessorKey: "id",
     header: "ID",
+    minSize: 50,
+    size: 50,
   },
   {
     accessorKey: "email",
     header: "Email",
+    minSize: 100,
   },
   {
     accessorKey: "amount",
     header: "Amount",
+    minSize: 100,
     cell: ({ row }) => {
       const amount = parseFloat(row.getValue("amount"));
       const formatted = new Intl.NumberFormat("en-US", {
@@ -54,6 +60,7 @@ export const columns: ColumnDef<Payment>[] = [
   {
     accessorKey: "status",
     header: "Status",
+    minSize: 100,
     cell: ({ row }) => {
       const status = row.getValue("status") as Payment["status"];
       return (
@@ -79,6 +86,7 @@ export const columns: ColumnDef<Payment>[] = [
   {
     accessorKey: "createdAt",
     header: "Created At",
+    minSize: 125,
     cell: ({ row }) => {
       const date = row.getValue("createdAt") as Date;
       return <div>{format(date, "PPP")}</div>;
@@ -87,5 +95,6 @@ export const columns: ColumnDef<Payment>[] = [
   {
     accessorKey: "description",
     header: "Description",
+    minSize: 175,
   },
 ];

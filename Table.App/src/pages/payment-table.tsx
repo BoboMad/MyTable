@@ -6,48 +6,51 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { Combobox } from "@/components/ui/combobox";
 
-const mockData: Payment[] = [
-  {
-    id: "1",
-    amount: 100,
-    status: "pending",
-    email: "john@example.com",
-    createdAt: new Date("2024-01-01"),
-    description: "Monthly subscription",
-  },
-  {
-    id: "2",
-    amount: 200,
-    status: "processing",
-    email: "sarah@example.com",
-    createdAt: new Date("2024-01-02"),
-    description: "Annual plan",
-  },
-  {
-    id: "3",
-    amount: 300,
-    status: "success",
-    email: "mike@example.com",
-    createdAt: new Date("2024-01-03"),
-    description: "Enterprise package",
-  },
-  {
-    id: "4",
-    amount: 150,
-    status: "failed",
-    email: "lisa@example.com",
-    createdAt: new Date("2024-01-04"),
-    description: "Premium features",
-  },
-  {
-    id: "5",
-    amount: 250,
-    status: "success",
-    email: "david@example.com",
-    createdAt: new Date("2024-01-05"),
-    description: "Business plan",
-  },
-];
+// Generate 10,000 mock payments
+const generateMockPayments = (count: number): Payment[] => {
+  const statuses: Payment["status"][] = [
+    "pending",
+    "processing",
+    "success",
+    "failed",
+  ];
+  const descriptions = [
+    "Monthly subscription",
+    "Annual plan",
+    "Enterprise package",
+    "Premium features",
+    "Business plan",
+    "One-time purchase",
+    "Trial extension",
+    "Custom solution",
+  ];
+  const domains = ["example.com", "test.com", "demo.org", "sample.net"];
+
+  return Array.from({ length: count }, (_, index) => {
+    const id = `${index + 1}`;
+    const amount = Math.floor(Math.random() * 951) + 50; // 50 to 1000
+    const status = statuses[Math.floor(Math.random() * statuses.length)];
+    const email = `user${Math.floor(Math.random() * 1000)}@${
+      domains[Math.floor(Math.random() * domains.length)]
+    }`;
+    const createdAt = new Date(
+      Date.now() - Math.floor(Math.random() * 365 * 24 * 60 * 60 * 1000)
+    );
+    const description =
+      descriptions[Math.floor(Math.random() * descriptions.length)];
+
+    return {
+      id,
+      amount,
+      status,
+      email,
+      createdAt,
+      description,
+    };
+  });
+};
+
+const mockData: Payment[] = generateMockPayments(10000);
 
 export function PaymentTable() {
   return (
