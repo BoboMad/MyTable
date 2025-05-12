@@ -4,32 +4,35 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 public class AppDbContext : DbContext
 {
-    public DbSet<TableRow> Customers { get; set; }
+    public DbSet<Payment> Payments { get; set; }
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<TableRow>().HasData(GenerateCustomers(10_000));
+        modelBuilder.Entity<Payment>().HasData(GeneratePayments(10_000));
     }
 
-    private static List<TableRow> GenerateCustomers(int count)
+    private static List<Payment> GeneratePayments(int count)
     {
         var random = new Random();
-        var startDate = DateTime.UtcNow.AddYears(-10);
-        var customers = new List<TableRow>();
+        var startDate = DateTime.UtcNow.AddYears(-1);
+        var statuses = new[] { "Pending", "processing", "success", "failed" };
+        var payments = new List<Payment>();
         for (int i = 1; i <= count; i++)
         {
-            customers.Add(new TableRow
+            var creationDate = startDate.AddDays(random.Next(0, 365));
+            payments.Add(new Payment
             {
                 Id = i,
-                Username = $"User {i}",
-                Email = $"Example{i}@example.com",
-                Date = startDate.AddDays(random.Next(0, 365 * 10)),
-                Age = random.Next(10, 96),
-                Active = random.Next(0, 2) == 1
+                Email = $"user{i}@example.com",
+                Amount = (decimal)(random.NextDouble() * 10000 + 10),
+                Status = statuses[random.Next(statuses.Length)],
+                CreationDate = creationDate,
+                ExpirationDate = creationDate.AddDays(30),
+                Description = $"Payment for order {i}"
             });
         }
-        return customers;
+        return payments;
     }
 }

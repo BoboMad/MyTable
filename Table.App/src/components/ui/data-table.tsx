@@ -45,10 +45,10 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
     if (!parent) return;
 
     const updateWidth = () => {
-      setContainerWidth(parent.offsetWidth);
+      setContainerWidth(parent.offsetWidth - 20);
     };
 
-    updateWidth(); // Initial measurement
+    updateWidth();
 
     const observer = new ResizeObserver(updateWidth);
     observer.observe(parent);
@@ -56,14 +56,13 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
     return () => observer.disconnect();
   }, []);
 
-  // Adjust column widths to fill container
   const totalDefinedWidth = table
     .getAllColumns()
     .reduce((sum, column) => sum + column.getSize(), 0);
   const columnsWithAdjustedWidths = table.getAllColumns().map((column) => ({
     ...column,
     getSize: () => {
-      if (containerWidth <= 0) return column.getSize(); // Fallback if container width not measured
+      if (containerWidth <= 0) return column.getSize();
       const scaleFactor = containerWidth / totalDefinedWidth;
       return column.getSize() * scaleFactor;
     },
@@ -84,13 +83,15 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
     <div className="rounded-md border">
       <div
         ref={parentRef}
-        className="max-h-[600px] overflow-auto"
-        style={{ position: "relative" }}
+        className="max-h-[600px] overflow-auto scrollbar-gutter-stable"
+        style={{
+          position: "relative",
+        }}
       >
         <Table
           style={{
             tableLayout: "fixed",
-            width: containerWidth || "100%", // Use container width or fallback to 100%
+            width: containerWidth || "100%",
             boxSizing: "border-box",
           }}
         >
@@ -120,7 +121,7 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
                       data-column-id={header.column.id}
                     >
                       <div
-                        className="flex items-center justify-between cursor-pointer select-none px-2"
+                        className="flex items-center justify-between cursor-pointer select-none"
                         onClick={header.column.getToggleSortingHandler()}
                       >
                         {header.isPlaceholder

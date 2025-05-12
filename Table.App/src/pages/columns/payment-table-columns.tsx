@@ -7,6 +7,7 @@ import {
   type ColumnDef,
 } from "@tanstack/react-table";
 import { Payment } from "../types/types";
+import { EditableTextCell } from "@/components/table-cell-components/editable-text";
 
 export const columns: ColumnDef<Payment>[] = [
   {
@@ -42,6 +43,15 @@ export const columns: ColumnDef<Payment>[] = [
     accessorKey: "email",
     header: "Email",
     minSize: 100,
+    cell: ({ row }) => (
+      <EditableTextCell
+        defaultValue={row.original.email}
+        rowId={row.original.id}
+        accessorKey="email"
+        rowData={row.original}
+        formPath="payments"
+      />
+    ),
   },
   {
     accessorKey: "amount",
@@ -84,17 +94,26 @@ export const columns: ColumnDef<Payment>[] = [
     },
   },
   {
-    accessorKey: "createdAt",
+    accessorKey: "creationDate",
     header: "Created At",
     minSize: 125,
     cell: ({ row }) => {
-      const date = row.getValue("createdAt") as Date;
-      return <div>{format(date, "PPP")}</div>;
+      const date = row.getValue("creationDate") as Date;
+      return <div>{format(date, "y-MM-dd")}</div>;
+    },
+  },
+  {
+    accessorKey: "expirationDate",
+    header: "Expires",
+    minSize: 125,
+    cell: ({ row }) => {
+      const date = row.getValue("expirationDate") as Date;
+      return <div>{format(date, "y-MM-dd")}</div>;
     },
   },
   {
     accessorKey: "description",
     header: "Description",
-    minSize: 175,
+    minSize: 150,
   },
 ];
