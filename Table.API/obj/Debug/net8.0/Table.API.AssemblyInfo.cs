@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Table.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5c3f67beab67926ad45254c51fbfb0c9692fb64d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8c9f28d3a83a2a33f0ef6a42cf00865da750da0d")]
 [assembly: System.Reflection.AssemblyProductAttribute("Table.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Table.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
