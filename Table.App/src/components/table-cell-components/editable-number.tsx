@@ -41,7 +41,6 @@ export function EditableNumberCell<TData>({
       setValue(`${formPath}.${index}.isEdited`, true, { shouldDirty: true });
     }
     if (newValue === defaultValue) {
-      debugger;
       const rowDirtyFields = get(dirtyFields, `${formPath}.${index}`, {});
       const isRowDirty = Object.keys(rowDirtyFields).some(
         (key) =>

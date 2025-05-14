@@ -86,7 +86,7 @@ export const columns: ColumnDef<Payment>[] = [
     header: "Status",
     minSize: 100,
     cell: ({ row, cell }) => (
-      <div></div>
+      <div>{row.original.statusId}</div>
       // <StatusPicker
       //   key={cell.id}
       //   paymentId={row.original.id}

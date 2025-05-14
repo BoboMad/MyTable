@@ -68,7 +68,7 @@ export function PaymentTable() {
         })),
       });
     }
-  }, []);
+  }, [payments]);
 
   const { fields, append, remove, update, prepend } = useFieldArray({
     control,
@@ -112,7 +112,7 @@ export function PaymentTable() {
   };
 
   if (!payments || payments.length === 0) {
-    return <div>Loading...</div>; // Or display a loading indicator
+    return <div>Loading...</div>;
   }
 
   console.log(form.watch());
