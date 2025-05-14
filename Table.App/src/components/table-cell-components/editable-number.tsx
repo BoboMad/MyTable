@@ -88,7 +88,7 @@ export function EditableNumberCell<TData>({
         setIsEditing(true);
       }}
     >
-      {watchedValue || defaultValue}
+      {watchedValue.toFixed(2) || defaultValue.toFixed(2)}
     </div>
   );
 }

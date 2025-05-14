@@ -38,7 +38,7 @@ public class AppDbContext : DbContext
             {
                 Id = i,
                 Email = $"user{i}@example.com",
-                Amount = (decimal)(random.NextDouble() * 10000 + 10),
+                Amount = Math.Round((decimal)(random.NextDouble() * 10000 + 10),2),
                 StatusId = random.Next(1, 5),
                 CreationDate = creationDate,
                 ExpirationDate = creationDate.AddDays(30),

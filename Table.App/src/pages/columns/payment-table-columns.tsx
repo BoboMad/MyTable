@@ -11,7 +11,7 @@ import { EditableTextCell } from "@/components/table-cell-components/editable-te
 import { EditableNumberCell } from "@/components/table-cell-components/editable-number";
 import { MarkForDeleteCheckbox } from "@/components/ui/mark-for-deletion-checkbox";
 import { Trash2 } from "lucide-react";
-import { StatusPicker } from "@/components/table-cell-components/editable-status-picker";
+import { StatusPicker } from "@/components/table-cell-components/status-picker";
 
 export const columns: ColumnDef<Payment>[] = [
   {
@@ -86,12 +86,12 @@ export const columns: ColumnDef<Payment>[] = [
     header: "Status",
     minSize: 100,
     cell: ({ row, cell }) => (
-      <div>{row.original.statusId}</div>
-      // <StatusPicker
-      //   key={cell.id}
-      //   paymentId={row.original.id}
-      //   statusId={row.original.statusId}
-      // />
+      <StatusPicker
+        index={row.index}
+        defaultValue={row.original.statusId}
+        accessorKey="statusId"
+        formPath="payments"
+      />
     ),
   },
   {
