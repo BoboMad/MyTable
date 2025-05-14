@@ -8,24 +8,24 @@ import {
 } from "@tanstack/react-table";
 import { Payment } from "../types/types";
 import { EditableTextCell } from "@/components/table-cell-components/editable-text";
+import { EditableNumberCell } from "@/components/table-cell-components/editable-number";
+import { MarkForDeleteCheckbox } from "@/components/ui/mark-for-deletion-checkbox";
+import { Trash2 } from "lucide-react";
+import { StatusPicker } from "@/components/table-cell-components/editable-status-picker";
 
 export const columns: ColumnDef<Payment>[] = [
   {
     id: "select",
     header: ({ table }) => (
-      <div className="flex items-center justify-center">
-        <Checkbox
-          checked={table.getIsAllPageRowsSelected()}
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-          aria-label="Select all"
-        />
+      <div className="flex items-center justify-center w-full">
+        <Trash2 className="w-4 h-4" />
       </div>
     ),
     cell: ({ row }) => (
-      <Checkbox
+      <MarkForDeleteCheckbox
+        formPath="payments"
+        index={row.index}
         checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
       />
     ),
     minSize: 50,
@@ -38,15 +38,28 @@ export const columns: ColumnDef<Payment>[] = [
     header: "ID",
     minSize: 50,
     size: 50,
+    cell: ({ row }) => {
+      if (row.original.id < 0) {
+        return <div className="min-w-[20px]" />;
+      } else {
+        return (
+          <div className="flex items-center justify-center">
+            {row.original.id}
+          </div>
+        );
+      }
+    },
   },
   {
     accessorKey: "email",
     header: "Email",
     minSize: 100,
+    size: 150,
+    maxSize: 200,
     cell: ({ row }) => (
       <EditableTextCell
         defaultValue={row.original.email}
-        rowId={row.original.id}
+        index={row.index}
         accessorKey="email"
         rowData={row.original}
         formPath="payments"
@@ -57,41 +70,29 @@ export const columns: ColumnDef<Payment>[] = [
     accessorKey: "amount",
     header: "Amount",
     minSize: 100,
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"));
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(amount);
-
-      return <div className="font-medium">{formatted}</div>;
-    },
+    size: 100,
+    cell: ({ row }) => (
+      <EditableNumberCell
+        defaultValue={row.original.amount}
+        accessorKey="amount"
+        rowData={row.original}
+        index={row.index}
+        formPath="payments"
+      />
+    ),
   },
   {
-    accessorKey: "status",
+    accessorKey: "statusId",
     header: "Status",
     minSize: 100,
-    cell: ({ row }) => {
-      const status = row.getValue("status") as Payment["status"];
-      return (
-        <div>
-          <Badge
-            className="min-w-24"
-            variant={
-              status === "success"
-                ? "success"
-                : status === "processing"
-                ? "warning"
-                : status === "pending"
-                ? "outline"
-                : "destructive"
-            }
-          >
-            {status}
-          </Badge>
-        </div>
-      );
-    },
+    cell: ({ row, cell }) => (
+      <div></div>
+      // <StatusPicker
+      //   key={cell.id}
+      //   paymentId={row.original.id}
+      //   statusId={row.original.statusId}
+      // />
+    ),
   },
   {
     accessorKey: "creationDate",
@@ -115,5 +116,14 @@ export const columns: ColumnDef<Payment>[] = [
     accessorKey: "description",
     header: "Description",
     minSize: 150,
+    cell: ({ row }) => (
+      <EditableTextCell
+        defaultValue={row.original.description}
+        index={row.index}
+        accessorKey="description"
+        rowData={row.original}
+        formPath="payments"
+      />
+    ),
   },
 ];
