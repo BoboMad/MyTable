@@ -67,6 +67,7 @@ export function EditableNumberCell<TData>({
         type="number"
         step="0.01"
         defaultValue={defaultValue}
+        onChange={() => {}}
         onBlur={(e) => handleBlur(parseFloat(e.target.value) || 0)}
         onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
           if (e.key === "Enter") handleBlur(parseFloat(e.target.value) || 0);

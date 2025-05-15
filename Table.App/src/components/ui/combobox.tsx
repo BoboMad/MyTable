@@ -10,17 +10,17 @@ import {
   CommandList,
 } from "./command";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 
 interface Option {
   value: number;
-  label: string;
+  label: string | ReactNode;
 }
 
 interface ComboboxProps {
   options: Option[];
   placeholder?: string;
-  onChange: (value:number) => void;
+  onChange: (value: number) => void;
   value: number;
   className?: string;
 }
@@ -30,7 +30,7 @@ export function Combobox({
   placeholder = "Select option...",
   className,
   value,
-  onChange
+  onChange,
 }: ComboboxProps) {
   const [open, setOpen] = useState(false);
 
@@ -38,41 +38,41 @@ export function Combobox({
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
-          variant="outline"
+          variant="ghost"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between"
+          className="w-[200px] justify-start"
         >
-          {value ? options.find((option) => option.value === value)?.label : placeholder}
-          <ChevronsUpDown className="opacity-50" />
+          {value
+            ? options.find((option) => option.value === value)?.label
+            : placeholder}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
         <Command>
-          <CommandInput placeholder={placeholder} className="h-9" />
           <CommandList>
             <CommandEmpty>No result</CommandEmpty>
             {options.length > 0 && (
-            <CommandGroup>
-              {options.map((option) => (
-                <CommandItem
-                  key={option.value}
-                  value={option.value.toString()}
-                  onSelect={() => {
-                    onChange(option.value);
+              <CommandGroup>
+                {options.map((option) => (
+                  <CommandItem
+                    key={option.value}
+                    value={option.value.toString()}
+                    onSelect={() => {
+                      onChange(option.value);
                       setOpen(false);
-                  }}
-                >
-                  {option.label}
-                  <Check
-                    className={cn(
-                      "ml-auto",
-                      value === option.value ? "opacity-100" : "opacity-0"
-                    )}
-                  />
-                </CommandItem>
-              ))}
-            </CommandGroup>
+                    }}
+                  >
+                    {option.label}
+                    <Check
+                      className={cn(
+                        "ml-auto",
+                        value === option.value ? "opacity-100" : "opacity-0"
+                      )}
+                    />
+                  </CommandItem>
+                ))}
+              </CommandGroup>
             )}
           </CommandList>
         </Command>

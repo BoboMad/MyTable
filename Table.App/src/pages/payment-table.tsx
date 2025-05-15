@@ -104,11 +104,19 @@ export function PaymentTable() {
     const editedRows = rows.filter(
       (row) => row.isEdited && !row.isDeleted && !row.isNew
     );
-    const deletedRows = rows.filter((row) => row.isDeleted);
+    const deletedRowIds = rows
+      .filter((row) => row.isDeleted && !row.isNew)
+      .map((row) => row.id);
 
-    console.log("Added:", addedRows);
-    console.log("Edited:", editedRows);
-    console.log("Deleted:", deletedRows);
+    if (addedRows.length > 0) {
+    }
+
+    if (editedRows.length > 0) {
+    }
+
+    if (deletedRowIds.length > 0) {
+      console.log(deletedRowIds);
+    }
   };
 
   if (!payments || payments.length === 0) {

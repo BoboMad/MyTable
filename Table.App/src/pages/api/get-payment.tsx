@@ -3,7 +3,7 @@ import axios from "@/lib/axios";
 import { ExtractFnReturnType, QueryConfig } from "@/lib/react-query";
 import { Payment } from "../types/types";
 
-const QUERY_KEY = "Payments";
+export const QUERY_KEY = "Payments";
 
 export const getPayments = (): Promise<Payment[]> => {
   return axios.get(`payment`);

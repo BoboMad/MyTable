@@ -73,11 +73,13 @@ export function EditableTextCell<TData>({
     );
   }
 
+  const hasError = !!get(errors, fieldName);
+
   return (
     <div
       className={cn(
         "truncate px-2 cursor-text min-h-[38px] flex items-center",
-        errors && "border-red-500"
+        hasError && "border border-red-500"
       )}
       onClick={() => {
         setIsEditing(true);

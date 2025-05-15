@@ -24,43 +24,104 @@ namespace Table.API.Controllers
             return payments;
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutPayment(int id, Payment payment)
+        [HttpPost]
+        public async Task<ActionResult> CreatePayment(List<Payment> payments)
         {
-            if (id != payment.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(payment).State = EntityState.Modified;
             try
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!_context.Payments.Any(e => e.Id == id))
+                if (payments == null || !payments.Any())
                 {
-                    return NotFound();
+                    return BadRequest("No payments provided.");
                 }
-                throw;
-            }
-            return NoContent();
-        }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePayment(int id)
-        {
-            var payment = await _context.Payments.FindAsync(id);
-            if (payment == null)
+                await _context.AddRangeAsync(payments);
+                await _context.SaveChangesAsync();
+                return Ok();
+            }
+            catch(Exception ex)
             {
-                return NotFound();
+                Console.WriteLine(ex);
+                return StatusCode(500);
             }
-
-            _context.Payments.Remove(payment);
-            await _context.SaveChangesAsync();
-            return NoContent();
         }
 
+        [HttpPut]
+        public async Task<IActionResult> UpdatePayment(List<Payment> payments)
+        {
+            try
+            {
+                if (payments == null || !payments.Any())
+                {
+                    return BadRequest("No payments provided.");
+                }
+
+                foreach (var payment in payments)
+                {
+                    if (string.IsNullOrEmpty(payment.Email))
+                    {
+                        return BadRequest("Email is required for all payments.");
+                    }
+                    if (payment.Amount < 0)
+                    {
+                        return BadRequest("Amount cannot be negative.");
+                    }
+                    if (payment.ExpirationDate <= payment.CreationDate)
+                    {
+                        return BadRequest("Expiration date must be after creation date.");
+                    }
+                }
+
+                var paymentIds = payments.Select(p => p.Id).ToList();
+                var existingPayments = await _context.Payments
+                    .Where(p => paymentIds.Contains(p.Id))
+                    .ToListAsync();
+
+                foreach (var payment in payments)
+                {
+                    var existingPayment = existingPayments.First(p => p.Id == payment.Id);
+                    existingPayment.Email = payment.Email;
+                    existingPayment.Amount = payment.Amount;
+                    existingPayment.StatusId = payment.StatusId;
+                    existingPayment.CreationDate = payment.CreationDate;
+                    existingPayment.ExpirationDate = payment.ExpirationDate;
+                    existingPayment.Description = payment.Description;
+
+                    _context.Entry(existingPayment).State = EntityState.Modified;
+                }
+
+                await _context.SaveChangesAsync();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return StatusCode(500);
+            }
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeletePayment(List<int> paymentIds)
+        {
+            try
+            {
+                if (paymentIds == null || !paymentIds.Any())
+                {
+                    return BadRequest("No payments provided.");
+                }
+
+                var existingPayments = await _context.Payments
+                    .Where(p => paymentIds.Contains(p.Id))
+                    .ToListAsync();
+
+                _context.Payments.RemoveRange(existingPayments);
+                await _context.SaveChangesAsync();
+                return Ok();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex);
+                return StatusCode(500);
+            }
+        }
     }
 }
