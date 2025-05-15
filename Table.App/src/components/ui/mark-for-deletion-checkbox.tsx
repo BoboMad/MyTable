@@ -8,8 +8,7 @@ interface MarkForDeleteCheckboxProps {
   checked: boolean;
 }
 
-export const MarkForDeleteCheckbox = memo(
-  ({ formPath, index, checked }: MarkForDeleteCheckboxProps) => {
+export const MarkForDeleteCheckbox = ({ formPath, index, checked }: MarkForDeleteCheckboxProps) => {
     const { setValue, getValues } = useFormContext();
     const fieldName = `${formPath}.${index}.isDeleted` as const;
     const watchedValue = getValues(fieldName);
@@ -25,12 +24,4 @@ export const MarkForDeleteCheckbox = memo(
         />
       </div>
     );
-  },
-  (prevProps, nextProps) => {
-    return (
-      prevProps.index === nextProps.index &&
-      prevProps.formPath === nextProps.formPath &&
-      prevProps.checked === nextProps.checked
-    );
-  }
-);
+  };

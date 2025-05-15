@@ -33,7 +33,7 @@ public class AppDbContext : DbContext
         var payments = new List<Payment>();
         for (int i = 1; i <= count; i++)
         {
-            var creationDate = startDate.AddDays(random.Next(0, 365));
+            var creationDate = startDate.AddDays(random.Next(0, 365)).Date;
             payments.Add(new Payment
             {
                 Id = i,

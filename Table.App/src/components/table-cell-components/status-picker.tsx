@@ -26,11 +26,6 @@ export function StatusPicker({
     formState: { dirtyFields },
   } = useFormContext();
 
-  //   const options = statuses?.map((s) => ({
-  //     value: s.id,
-  //     label: s.name,
-  //   }));
-
   const fieldName = `${formPath}.${index}.${String(accessorKey)}` as const;
   const watchedValue = useWatch({ name: fieldName });
 
@@ -57,9 +52,6 @@ export function StatusPicker({
       </Badge>
     ) as ReactNode,
   }));
-
-  const currentStatus = statuses.find((s) => s.id === watchedValue);
-  const statusName = currentStatus ? currentStatus.name : "Unknown";
 
   const handleChange = (newValue: number) => {
     const stateValue = getValues(fieldName);

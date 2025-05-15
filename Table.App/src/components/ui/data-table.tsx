@@ -17,6 +17,7 @@ import {
 import { MoveDown, MoveUp, MoveVertical } from "lucide-react";
 import { useRef, useState, useEffect } from "react";
 import { useVirtualizer, VirtualItem } from "@tanstack/react-virtual";
+import { cn } from "@/lib/utils";
 
 interface DataTableProps<TData> {
   columns: ColumnDef<TData>[];
@@ -164,6 +165,24 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
             {virtualItems.length ? (
               virtualItems.map((virtualRow: VirtualItem) => {
                 const row = rows[virtualRow.index];
+
+                const {
+                  isDeleted,
+                  isNew ,
+                  isEdited ,
+                } = row.original as {
+                  isDeleted?: boolean;
+                  isNew?: boolean;
+                  isEdited?: boolean;
+                };
+                
+                const rowClass = isDeleted
+                  ? "bg-red-100"
+                  : isNew
+                  ? "bg-green-100"
+                  : isEdited
+                  ? "bg-yellow-100"
+                  : "";
                 return (
                   <TableRow
                     key={row.id}
@@ -176,6 +195,7 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
                       display: "table-row",
                       boxSizing: "border-box",
                     }}
+                    className={cn(rowClass)}
                   >
                     {row.getVisibleCells().map((cell) => {
                       const adjustedColumn = columnsWithAdjustedWidths.find(

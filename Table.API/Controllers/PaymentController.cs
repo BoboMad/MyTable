@@ -34,6 +34,11 @@ namespace Table.API.Controllers
                     return BadRequest("No payments provided.");
                 }
 
+                foreach(var payment in payments)
+                {
+                    payment.Id = 0;
+                }
+
                 await _context.AddRangeAsync(payments);
                 await _context.SaveChangesAsync();
                 return Ok();

@@ -12,6 +12,7 @@ import { EditableNumberCell } from "@/components/table-cell-components/editable-
 import { MarkForDeleteCheckbox } from "@/components/ui/mark-for-deletion-checkbox";
 import { Trash2 } from "lucide-react";
 import { StatusPicker } from "@/components/table-cell-components/status-picker";
+import { DatePickerCell } from "@/components/table-cell-components/date-picker-cell";
 
 export const columns: ColumnDef<Payment>[] = [
   {
@@ -99,8 +100,15 @@ export const columns: ColumnDef<Payment>[] = [
     header: "Created At",
     minSize: 125,
     cell: ({ row }) => {
-      const date = row.getValue("creationDate") as Date;
-      return <div>{format(date, "y-MM-dd")}</div>;
+      return (
+        <DatePickerCell
+          defaultValue={row.original.creationDate}
+          index={row.index}
+          accessorKey="creationDate"
+          rowData={row.original}
+          formPath="payments"
+        />
+      );
     },
   },
   {
@@ -108,8 +116,15 @@ export const columns: ColumnDef<Payment>[] = [
     header: "Expires",
     minSize: 125,
     cell: ({ row }) => {
-      const date = row.getValue("expirationDate") as Date;
-      return <div>{format(date, "y-MM-dd")}</div>;
+      return (
+        <DatePickerCell
+          defaultValue={row.original.expirationDate}
+          index={row.index}
+          accessorKey="expirationDate"
+          rowData={row.original}
+          formPath="payments"
+        />
+      );
     },
   },
   {
